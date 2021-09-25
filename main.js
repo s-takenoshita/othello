@@ -9,7 +9,6 @@
       this.board = board;
       this.row = r;
       this.col = c;
-      this.state = 0;       // 0:Empty 1:White 2:Black
       this.color = 0;       // 0:Empty 1:White 2:Black
       this.td = document.createElement('td');
       // this.td.textContent = this.row.toString() + '-' + this.col.toString();
@@ -66,9 +65,6 @@
     }
     getTd() {
       return this.td
-    }
-    getSate() {
-      return this.state;
     }
     getColor() {
       return this.color;
