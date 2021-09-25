@@ -13,7 +13,6 @@
       this.td = document.createElement('td');
       // this.td.textContent = this.row.toString() + '-' + this.col.toString();
       this.td.addEventListener('click', () => {
-        // console.log('clicked => ' + this.td.textContent);
         if (this.color === 0) {
           board.check(this);
           if (board.countScore() === 64) {
@@ -154,28 +153,20 @@
     check(cell) {
       this.cell = cell;
       this.result = 0;
-      console.log('up');
-      this.result += this.checkVertical(this.cell, -1, -1, 0, -1);
-      console.log('under');
-      this.result += this.checkVertical(this.cell, 1, 8, 0, -1);
-      console.log('left')
-      this.result += this.checkVertical(this.cell, 0, -1, -1, -1);
-      console.log('right')
-      this.result += this.checkVertical(this.cell, 0, -1, 1, 8);
-      console.log('up-left')
-      this.result += this.checkVertical(this.cell, -1, -1, -1, -1);
-      console.log('up-righr')
-      this.result += this.checkVertical(this.cell, -1, -1, 1, 8);
-      console.log('under-left')
-      this.result += this.checkVertical(this.cell, 1, 8, -1, -1);
-      console.log('under-righr')
-      this.result += this.checkVertical(this.cell, 1, 8, 1, 8);
+      this.result += this.checkCells(this.cell, -1, -1, 0, -1);      // up
+      this.result += this.checkCells(this.cell, 1, 8, 0, -1);        // under
+      this.result += this.checkCells(this.cell, 0, -1, -1, -1);      // left
+      this.result += this.checkCells(this.cell, 0, -1, 1, 8);        // right
+      this.result += this.checkCells(this.cell, -1, -1, -1, -1);     // up left
+      this.result += this.checkCells(this.cell, -1, -1, 1, 8);       // up right
+      this.result += this.checkCells(this.cell, 1, 8, -1, -1);       // under left
+      this.result += this.checkCells(this.cell, 1, 8, 1, 8);         // under right
 
       if (this.result > 0) {
         this.changePrayer();
       }
     }
-    checkVertical(cell, rowInc, rowEnd, colInc, colEnd) {
+    checkCells(cell, rowInc, rowEnd, colInc, colEnd) {
       this.cell = cell;
       this.opponentCount = 0;
       this.result = false;
@@ -186,21 +177,21 @@
       let r = this.row + rowInc;
       let c = this.col + colInc;
       while (r !== rowEnd && c !== colEnd) {
-        console.log('r => '+ r + ' c => ' + c);
+        // console.log('r => '+ r + ' c => ' + c);
 
         const checkCell = this.cells[r][c];
         if (checkCell.getColor() === currentPrayer * -1) {
-          console.log('=> A');
+          // console.log('=> A');
           this.opponentCount++;
           this.invertCells.push(checkCell);
         }
         if (checkCell.getColor() === 0) {
-          console.log('=> B ' + checkCell.getTextContent());
+          // console.log('=> B ' + checkCell.getTextContent());
           this.result = false;
           break;
         }
         if (checkCell.getColor() === currentPrayer) {
-          console.log('=> C');
+          // console.log('=> C');
           this.result = true;
           break;
         }
@@ -224,6 +215,14 @@
   let playing = false;
   const board = new Board();
   
+  // path button
+  const path = document.getElementById('path');
+  path.addEventListener('click', () => {
+    console.log('path');
+    board.changePrayer();
+  })
+
+  // strat button
   const start = document.getElementById('start');
   start.addEventListener('click', () => {
     if (!playing) {
